@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "2becc336-2839-4a44-82dd-8cb0ba091d3c",
+		"name": "AnhNT246_API_Day1(Updated)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Ex1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody)\r",
+							"\r",
+							"pm.test(\"Validation: Number of leagues\", function () {\r",
+							"    pm.expect(jsonData.leagues.length).to.eql(896)\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validation: Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validation: strLeague contains a specific value \", function () { \r",
+							"    var jsonData = pm.response.json();\r",
+							"    var ids = jsonData.leagues.map((i) => i.strLeague);\r",
+							"    pm.expect(ids.includes('Vietnamese V.League 1')).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validation: idLeague in ascending order\", () => {\r",
+							"    const isAscending = jsonData.leagues.map(item => item.idLeague).every((current, index, ids) => index === 0 || current >= ids[index-1])\r",
+							"    pm.expect(isAscending).to.be.true\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validation: leagues contains schema\", function () {\r",
+							"    pm.expect(jsonData.leagues[0]).to.have.keys(\"idLeague\",\"strLeague\",\"strSport\",\"strLeagueAlternate\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://www.thesportsdb.com/api/v1/json/2/all_leagues.php",
+					"protocol": "https",
+					"host": [
+						"www",
+						"thesportsdb",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"json",
+						"2",
+						"all_leagues.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ex2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log('This is pre-test');"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
